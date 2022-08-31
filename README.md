@@ -1,1 +1,2 @@
-#Magazine Jornada
+# magazineJornada
+Repositório para commit do projeto magazineJornada
