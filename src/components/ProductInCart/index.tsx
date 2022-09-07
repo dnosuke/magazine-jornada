@@ -86,7 +86,7 @@ export default function ProductInCart() {
   const isSelected = (name: string) => selected.indexOf(name) !== -1;
 
   return (
-    <Box sx={{ width: "100%" }} display="flex" flexWrap={"wrap"} justifyContent='space-around'>
+    <Box sx={{ width: "100%" }} display="flex" flexWrap={"wrap"} justifyContent='center'>
       <Box sx={{ width: "60%" }}>
         <ItemCart />
         <ItemCart />
@@ -96,15 +96,15 @@ export default function ProductInCart() {
       </Box>
 
       <Box>
-        <Card sx={{ minWidth: 275 }}>
+        <Card sx={{width: 400, minWidth: 275, backgroundColor: '#1111', ml: 4 }}>
           <CardContent>
             <Typography variant="h5" component="div">
               Total:  {formatMoney(28150)}
             </Typography>
           </CardContent>
           <CardActions>
-            <Button size="small">LIMPAR CARRINHO</Button>
-            <Button size="small">EFETUAR PEDIDO</Button>
+            <Button style={{ backgroundColor: '#1976d2', color: '#f0eaea' }} size="large">EFETUAR PEDIDO</Button>
+            <Button color="error" size="small">LIMPAR CARRINHO</Button>
           </CardActions>
         </Card>
       </Box>

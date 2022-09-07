@@ -25,7 +25,7 @@ function ItemCart() {
   
 
   return (
-    <Card sx={{ display: "flex", padding: 2, mb: 2, justifyContent: 'space-between' }}>
+    <Card sx={{ display: "flex", padding: 2, mb: 2, justifyContent: 'space-between', backgroundColor: '#1111' }}>
       <CardMedia
         component="img"
         sx={{ width: 155, height: 120 }}
@@ -51,17 +51,10 @@ function ItemCart() {
             component="div"
           >
             {formatMoney(1889.10)}
+            
           </Typography>
         </CardContent>
-        <Box sx={{ display: "flex", alignItems: "center", pl: 1, pb: 1 }}></Box>
-      </Box>
-      <Box >
-        <Typography variant="subtitle1" color="text.secondary" component="div">
-          Valor Total
-        </Typography>
-        <Typography variant="h6" color="text.secondary" component="div">
-          {formatMoney(1889.10)}
-        </Typography>
+        <Box sx={{ display: "flex", alignItems: "center", pl: 1 }}>
         <Tooltip title="Remover" onClick={handleRemove}>
           <IconButton>
             <RemoveCircleIcon />
@@ -78,6 +71,15 @@ function ItemCart() {
             <DeleteIcon />
           </IconButton>
         </Tooltip>
+        </Box>
+      </Box>
+      <Box >
+        <Typography variant="subtitle1" color="text.secondary" component="div">
+          Valor Total
+        </Typography>
+        <Typography variant="h6" color="text.secondary" component="div">
+          {formatMoney(1889.10)}
+        </Typography>
       </Box>
     </Card>
   );
