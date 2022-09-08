@@ -6,7 +6,7 @@ import {
   useMemo,
   useState,
 } from "react";
-import { User } from "../../../types/user";
+import { IUser } from "../../../types/user";
 
 import { AuthService } from "../../api/auth/AuthService";
 
@@ -14,7 +14,8 @@ interface IAuthContextData {
   isAuthenticated: boolean;
   login: (email: string, password: string) => Promise<string | void>;
   logout: () => void;
-  all: () => void;
+  signup: (user: IUser) => void;
+  getAllProducts: () => void;
 }
 
 interface IAuthProviderProps {
@@ -24,7 +25,6 @@ interface IAuthProviderProps {
 export const AuthContext = createContext({} as IAuthContextData);
 
 export const AuthProvider: React.FC<IAuthProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<User>();
   const [accessToken, setAccessToken] = useState<string>();
 
   useEffect(() => {
@@ -56,7 +56,12 @@ export const AuthProvider: React.FC<IAuthProviderProps> = ({ children }) => {
 
   const isAuthenticated = useMemo(() => !!accessToken, [accessToken]);
 
-  const handleAll = useCallback(async () => {
+  const handleSignUp = useCallback(async (user: IUser) => {
+    const result = await AuthService.signUp(user);
+    console.log(result);
+  }, []);
+
+  const handleGetAll = useCallback(async () => {
     const result = await AuthService.getAll();
     console.log(result);
   }, []);
@@ -67,7 +72,8 @@ export const AuthProvider: React.FC<IAuthProviderProps> = ({ children }) => {
         isAuthenticated,
         login: handleLogin,
         logout: handleLogout,
-        all: handleAll,
+        signup: handleSignUp,
+        getAllProducts: handleGetAll,
       }}
     >
       {children}

@@ -12,7 +12,7 @@ export const AppRoutes = () => {
     <Routes>
       {/*ROTAS DE CLIENTE */}
       <Route path="/home" element={<Home />} />
-      <Route path="/login" element={<Login />} />
+      <Route path="/login" element={<Login children={undefined} />} />
       <Route path="/signup" element={<SignUp />} />
       <Route path="/cart" element={<Cart />} />
       <Route path="/product" element={<Product />} />

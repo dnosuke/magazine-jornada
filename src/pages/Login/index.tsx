@@ -3,22 +3,23 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../shared/contexts";
 
-function Login() {
+interface ILoginProps {
+  children: React.ReactNode;
+}
+
+const Login: React.FC<ILoginProps> = ({ children }) => {
   const navigate = useNavigate();
   const { isAuthenticated, login } = useAuthContext();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSubmit = async () => {
-    if(email && password) {
-      login(email, password);
-      if(isAuthenticated) {
-        navigate('/home');
-      }else {
-        alert("Não deu certo")
-      }
+    if (email && password) {
+     await login(email, password);
     }
-  }
+  };
+
+  if (isAuthenticated) return <>{children}</>;
 
   return (
     <Box
@@ -62,12 +63,12 @@ function Login() {
             <span>Lorem ipsum dolor sit amet, consectetur adipisci elit</span>
             <TextField
               id="outlined-basic"
-              error
+              error={false}
               helperText="Incorrect entry."
               label="E-mail"
               variant="outlined"
               value={email}
-              onChange={e => setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
               id="outlined-password-input"
@@ -75,7 +76,7 @@ function Login() {
               type="password"
               autoComplete="current-password"
               value={password}
-              onChange={e => setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
             />
             <Link
               component="button"
@@ -88,11 +89,7 @@ function Login() {
             >
               Esqueci a senha
             </Link>
-            <Button
-              color="info"
-              variant="contained"
-              onClick={handleSubmit}
-            >
+            <Button color="info" variant="contained" onClick={handleSubmit}>
               Login
             </Button>
           </Box>
@@ -102,7 +99,7 @@ function Login() {
               component="button"
               variant="body2"
               underline="none"
-              onClick={() => navigate("/signup", { state: '' })}
+              onClick={() => navigate("/signup", { state: "" })}
             >
               Cadastre-se
             </Link>
@@ -111,6 +108,6 @@ function Login() {
       </Box>
     </Box>
   );
-}
+};
 
 export default Login;

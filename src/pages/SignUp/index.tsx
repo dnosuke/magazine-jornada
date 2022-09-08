@@ -11,15 +11,25 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../../shared/contexts";
+import { IUser } from "../../types/user";
+
 
 function SignUp() {
   const navigate = useNavigate();
+  const { signup } = useAuthContext();
   const [userType, setUserType] = useState<string>();
+  const [user, setUser] = useState<IUser>();
 
   const handleChange = (event: SelectChangeEvent) => {
     setUserType(event.target.value as string);
   };
 
+  const handleSignUp = () => {
+    signup(user as IUser);
+  }
+  
+  
   return (
     <Box
       height="100vh"
@@ -66,7 +76,7 @@ function SignUp() {
               <Select
                 labelId="simple-select-label"
                 id="simple-select"
-                value={userType}
+                value={userType || ''}
                 label="Tipo"
                 onChange={handleChange}
               >
@@ -76,27 +86,33 @@ function SignUp() {
             </FormControl>
 
             <TextField
-              id="outlined-basic"
-              error
-              helperText="Incorrect entry."
+              id="name-outlined-basic"
+              error={false}
+              helperText=""
               label="Nome Completo"
               variant="outlined"
+              value={user?.name || ''}
+              onChange={(e) => setUser({ ...user, name: e.target.value } as IUser)}
             />
             <TextField
               id="outlined-basic"
-              error
-              helperText="Incorrect entry."
+              error={false}
+              helperText=""
               label="E-mail"
               variant="outlined"
+              value={user?.email || ''}
+              onChange={(e) => setUser({ ...user, email: e.target.value } as IUser)}
             />
             <TextField
               id="outlined-password-input"
               label="Senha"
               type="password"
               autoComplete="current-password"
+              value={user?.password || ''}
+              onChange={(e) => setUser({ ...user, password: e.target.value } as IUser)}
             />
             <TextField
-              id="outlined-password-input"
+              id="repeat-password-input"
               label="Confirmar Senha"
               type="password"
               autoComplete="current-password"
@@ -109,9 +125,7 @@ function SignUp() {
             <Button
               color="info"
               variant="contained"
-              onClick={() => {
-                console.info("Criado");
-              }}
+              onClick={handleSignUp}
             >
               Criar
             </Button>
@@ -122,7 +136,7 @@ function SignUp() {
               component="button"
               variant="body2"
               underline="none"
-              onClick={() => navigate("/login", { state: "" })}
+              onClick={() => navigate('/login')}
             >
               Fazer login
             </Link>
