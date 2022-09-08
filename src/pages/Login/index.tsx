@@ -1,8 +1,24 @@
 import { Box, Button, Link, TextField } from "@mui/material";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../../shared/contexts";
 
 function Login() {
   const navigate = useNavigate();
+  const { isAuthenticated, login } = useAuthContext();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSubmit = async () => {
+    if(email && password) {
+      login(email, password);
+      if(isAuthenticated) {
+        navigate('/home');
+      }else {
+        alert("Não deu certo")
+      }
+    }
+  }
 
   return (
     <Box
@@ -50,12 +66,16 @@ function Login() {
               helperText="Incorrect entry."
               label="E-mail"
               variant="outlined"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
             />
             <TextField
               id="outlined-password-input"
               label="Senha"
               type="password"
               autoComplete="current-password"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
             />
             <Link
               component="button"
@@ -71,9 +91,7 @@ function Login() {
             <Button
               color="info"
               variant="contained"
-              onClick={() => {
-                console.info("Login");
-              }}
+              onClick={handleSubmit}
             >
               Login
             </Button>
