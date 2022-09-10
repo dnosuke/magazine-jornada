@@ -7,9 +7,9 @@ export const App = () => {
   return (
     <AuthProvider>
       <BrowserRouter>
-        <Login>
+        
           <AppRoutes />
-        </Login>
+        
       </BrowserRouter>
     </AuthProvider>
   );

@@ -12,11 +12,14 @@ import { Product } from "../../types/product";
 function AdminAddProduct() {
   const { registerProduct } = useAuthContext();
   const [product, setProduct] = useState<Product>();
+  const [isLoading, setIsLoading] = useState<boolean>();
 
 
   const handleRegisterProduct = () => {  
+    setIsLoading(true);
     console.log(product);
-    //registerProduct(product as Product);
+    registerProduct(product as Product)
+    .then(() => setIsLoading(false))
   }
   
   const handleUpload = (e: ChangeEvent<HTMLInputElement>) => {
@@ -74,6 +77,7 @@ function AdminAddProduct() {
               helperText=""
               label="Título"
               variant="outlined"
+              required={true}
               value={product?.title || ''}
               onChange={(e) => setProduct({ ...product, title: e.target.value } as Product)}
             />
@@ -115,6 +119,7 @@ function AdminAddProduct() {
               color="info"
               variant="contained"
               onClick={handleRegisterProduct}
+              disabled={isLoading}
             >
               Cadastrar
             </Button>
