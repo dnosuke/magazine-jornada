@@ -9,7 +9,7 @@ import {
   SelectChangeEvent,
   TextField,
 } from "@mui/material";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../shared/contexts";
 import { IUser } from "../../types/user";
@@ -23,12 +23,22 @@ function SignUp() {
 
   const handleChange = (event: SelectChangeEvent) => {
     setUserType(event.target.value as string);
+    setUser({...user, userType: event.target.value } as IUser)
   };
 
   const handleSignUp = () => {
     signup(user as IUser);
   }
+  const handleUpload = (e: ChangeEvent<HTMLInputElement>) => {
+    if(e.target.files === null){
+      return
+    }else{
+      setUser({...user, profilePicture: e.target.files[0]} as IUser)
+    }
+    
+  }
   
+  console.log(user);
   
   return (
     <Box
@@ -80,8 +90,8 @@ function SignUp() {
                 label="Tipo"
                 onChange={handleChange}
               >
-                <MenuItem value={"cliente"}>Cliente</MenuItem>
-                <MenuItem value={"parceiro"}>Parceiro</MenuItem>
+                <MenuItem value={"CUSTOMER"}>Cliente</MenuItem>
+                <MenuItem value={"PARTNER"}>Parceiro</MenuItem>
               </Select>
             </FormControl>
 
@@ -120,7 +130,7 @@ function SignUp() {
             <Button variant="contained" component="label" color="primary">
               {" "}
               Escolha uma imagem
-              <input type="file" hidden />
+              <input type="file" accept="image/*" onChange={handleUpload} hidden/>
             </Button>
             <Button
               color="info"

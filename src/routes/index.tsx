@@ -1,4 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom";
+import AdminAddProduct from "../pages/AdminAddProduct";
 import Cart from "../pages/Cart";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
@@ -19,7 +20,7 @@ export const AppRoutes = () => {
       <Route path="/product-list" element={<ProductList />} />
 
       {/*ROTAS DE PARCEIRO */}
-      <Route path="/admin/add-product" element={<Product />} />
+      <Route path="/admin/add-product" element={<AdminAddProduct />} />
       <Route path="/admin/product-list" element={<Product />} />
 
       <Route path="*" element={<Navigate to="/home" />} />

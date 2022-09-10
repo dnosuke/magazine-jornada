@@ -6,6 +6,7 @@ import {
   useMemo,
   useState,
 } from "react";
+import { Product } from "../../../types/product";
 import { IUser } from "../../../types/user";
 
 import { AuthService } from "../../api/auth/AuthService";
@@ -16,6 +17,7 @@ interface IAuthContextData {
   logout: () => void;
   signup: (user: IUser) => void;
   getAllProducts: () => void;
+  registerProduct: (product: Product) => Promise<void>;
 }
 
 interface IAuthProviderProps {
@@ -42,11 +44,8 @@ export const AuthProvider: React.FC<IAuthProviderProps> = ({ children }) => {
     if (result instanceof Error) {
       return result.message;
     } else {
-      localStorage.setItem(
-        "APP_ACCESS_TOKEN",
-        JSON.stringify(result.data.Token)
-      );
-      setAccessToken(result.data.Token);
+      localStorage.setItem("APP_ACCESS_TOKEN", JSON.stringify(result.token));
+      setAccessToken(result.token);
     }
   }, []);
   const handleLogout = useCallback(() => {
@@ -66,6 +65,11 @@ export const AuthProvider: React.FC<IAuthProviderProps> = ({ children }) => {
     console.log(result);
   }, []);
 
+  const handleResgisterProduct = useCallback(async (product: Product) => {
+    const result = await AuthService.resgisterProduct(product);
+    console.log(result);
+  }, []);
+
   return (
     <AuthContext.Provider
       value={{
@@ -74,6 +78,7 @@ export const AuthProvider: React.FC<IAuthProviderProps> = ({ children }) => {
         logout: handleLogout,
         signup: handleSignUp,
         getAllProducts: handleGetAll,
+        registerProduct: handleResgisterProduct,
       }}
     >
       {children}

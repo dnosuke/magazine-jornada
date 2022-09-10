@@ -1,10 +1,10 @@
+import { Product } from "../../../types/product";
 import { IUser } from "../../../types/user";
 import { Api } from "../axios-config";
 
 interface IAuth {
-  data : {
-    Token: string;
-  }
+  
+    token: string;
 }
 
 const validateToken = async (token: IAuth) => {
@@ -16,16 +16,23 @@ const getAll = async () => {
   return data;
 }
 const signUp = async (user: IUser) => {
-  const { name, email, password } = user;
-  const { data } = await Api.post('/api/authaccount/registration',  { name, email, password } );
-  console.log(user);
+  const { userType, name, email, password, profilePicture } = user;
+  const { data } = await Api.post('/user',  { userType, name, email, profilePicture, password } );
+  console.log(data);
+  
+  return data;
+}
+const resgisterProduct = async (product: Product) => {
+  const { title, description, quantity, price, picture } = product;
+  const { data } = await Api.post('/product',  { title, description, quantity, price, picture } );
+  console.log(data);
   
   return data;
 }
 
 const auth = async (email: string, password: string): Promise<IAuth | Error> => {
   try {
-    const { data } = await Api.post('/api/authaccount/login', { email, password });
+    const { data } = await Api.post('/user/login', { email, password });
 
     if (data){
   console.log(data)
@@ -45,4 +52,5 @@ export const AuthService = {
   validateToken,
   getAll,
   signUp,
+  resgisterProduct,
 };
