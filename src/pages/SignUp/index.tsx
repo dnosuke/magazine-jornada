@@ -33,7 +33,7 @@ function SignUp() {
     if(e.target.files === null){
       return
     }else{
-      setUser({...user, profilePicture: e.target.files[0]} as IUser)
+      setUser({...user, profilePicture: e.target.files[0].name } as IUser)
     }
     
   }

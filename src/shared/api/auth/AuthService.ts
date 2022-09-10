@@ -12,7 +12,7 @@ const validateToken = async (token: IAuth) => {
   return data;
 }
 const getAll = async () => {
-  const { data } = await Api.get('/api/Tourist?page=2');
+  const { data } = await Api.get('/api/');
   return data;
 }
 const signUp = async (user: IUser) => {

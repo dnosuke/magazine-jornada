@@ -23,7 +23,7 @@ function AdminAddProduct() {
     if(e.target.files === null){
       return
     }else{
-      setProduct({...product, picture: e.target.files[0]} as Product)
+      setProduct({...product, picture: e.target.files[0].name } as Product)
     }
     
   }
