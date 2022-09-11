@@ -71,6 +71,9 @@ export default function PrimarySearchAppBar() {
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+  const handleLeftMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
 
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
@@ -86,6 +89,32 @@ export default function PrimarySearchAppBar() {
   };
 
   const menuId = 'primary-search-account-menu';
+  const menuLeftId = 'primary-search-menu';
+  const renderLeftMenu = (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      id={menuLeftId}
+      keepMounted
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      <MenuItem>Atalho Páginas</MenuItem>
+      <MenuItem onClick={() => navigate('/login')} disabled={isAuthenticated}>Login</MenuItem>
+      <MenuItem onClick={() => navigate('/signup')} disabled={isAuthenticated}>Signup</MenuItem>
+      <MenuItem onClick={() => navigate('/admin/add-product')} disabled={isAuthenticated}>Cadastro produto</MenuItem>
+      <MenuItem onClick={() => navigate('/admin/product-list')} disabled={isAuthenticated}>Produtos cadastrados</MenuItem>
+      
+    </Menu>
+  );
+
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
@@ -149,6 +178,7 @@ export default function PrimarySearchAppBar() {
             color="inherit"
             aria-label="open drawer"
             sx={{ mr: 2 }}
+            onClick={handleLeftMenuOpen}
           >
             <MenuIcon />
           </IconButton>
@@ -212,6 +242,7 @@ export default function PrimarySearchAppBar() {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
+      {renderLeftMenu}
     </Box>
   );
 }

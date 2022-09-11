@@ -5,6 +5,7 @@ import {
   TextField,
 } from "@mui/material";
 import { ChangeEvent, useState } from "react";
+import PrimarySearchAppBar from "../../components/PrimaryNavbar";
 import { useAuthContext } from "../../shared/contexts";
 import { Product } from "../../types/product";
 
@@ -33,6 +34,9 @@ function AdminAddProduct() {
   
   
   return (
+
+    <>
+    <PrimarySearchAppBar />
     <Box
       height="100vh"
       width="100vw"
@@ -127,6 +131,7 @@ function AdminAddProduct() {
         </Box>
       </Box>
     </Box>
+    </>
   );
 }
 
