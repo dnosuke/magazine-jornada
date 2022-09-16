@@ -1,7 +1,8 @@
-import { Box, Button, Link, TextField } from "@mui/material";
+import { Box, Button, CardMedia, Link, TextField } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../shared/contexts";
+import * as shop from "../../../public/shop.gif";
 
 interface ILoginProps {
   children: React.ReactNode;
@@ -15,7 +16,7 @@ const Login: React.FC<ILoginProps> = ({ children }) => {
 
   const handleSubmit = async () => {
     if (email && password) {
-     await login(email, password);
+      await login(email, password);
     }
   };
 
@@ -38,8 +39,13 @@ const Login: React.FC<ILoginProps> = ({ children }) => {
         borderRadius="2%"
         style={{ backgroundColor: "white" }}
       >
-        <Box width="50%" style={{ backgroundColor: "#285ec4" }}>
-          imagem
+        <Box width="50%" display={"flex"} justifyContent={"center"} alignItems={"center"} style={{ backgroundColor: "#285ec4" }}>
+          <iframe
+            title="shop"
+            height="100%"
+            width="100%"
+            src="https://embed.lottiefiles.com/animation/66358"
+          ></iframe>
         </Box>
         <Box
           height="100%"
@@ -50,7 +56,6 @@ const Login: React.FC<ILoginProps> = ({ children }) => {
           justifyContent="space-around"
           gap={1}
         >
-          <Box alignSelf={"center"}>imagem</Box>
           <Box
             width="70%"
             display="flex"

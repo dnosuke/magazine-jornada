@@ -57,8 +57,13 @@ function SignUp() {
         borderRadius="2%"
         style={{ backgroundColor: "white" }}
       >
-        <Box width="50%" style={{ backgroundColor: "#285ec4" }}>
-          imagem
+        <Box width="50%" display={"flex"} justifyContent={"center"} alignItems={"center"} style={{ backgroundColor: "#285ec4" }}>
+          <iframe
+            title="shop"
+            height="100%"
+            width="100%"
+            src="https://embed.lottiefiles.com/animation/66358"
+          ></iframe>
         </Box>
         <Box
           height="100%"
