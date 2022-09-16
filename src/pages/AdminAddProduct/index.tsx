@@ -47,34 +47,27 @@ function AdminAddProduct() {
     >
       <Box
         height="80%"
-        width="50%"
+        width="30%"
         alignSelf={"center"}
         display={"flex"}
         borderRadius="2%"
         style={{ backgroundColor: "white" }}
       >
-        <Box
-          height="100%"
-          width="50%"
-          display="flex"
-          flexDirection={"column"}
-          alignSelf={"center"}
-          justifyContent="space-around"
-          gap={1}
-        >
-          <Box alignSelf={"center"}>imagem</Box>
+        
+          
           <Box
-            width="70%"
+            width="100%"
             display="flex"
             flexDirection={"column"}
             alignSelf={"center"}
             textAlign="center"
-            gap={1}
+            padding={4}
+            gap={2}
           >
             <h1>Cadastrar Produto</h1>
             <span>Lorem ipsum dolor sit amet, consectetur adipisci elit</span>
 
-            <FormControl fullWidth >            
+            <FormControl fullWidth sx={{ gap: 2}}>            
             <TextField
               id="titulo-outlined-basic"
               error={false}
@@ -130,7 +123,6 @@ function AdminAddProduct() {
           </Box>
         </Box>
       </Box>
-    </Box>
     </>
   );
 }

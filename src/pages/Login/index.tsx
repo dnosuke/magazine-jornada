@@ -1,8 +1,7 @@
-import { Box, Button, CardMedia, Link, TextField } from "@mui/material";
+import { Box, Button, Link, TextField } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../shared/contexts";
-import * as shop from "../../../public/shop.gif";
 
 interface ILoginProps {
   children: React.ReactNode;
