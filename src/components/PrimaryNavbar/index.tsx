@@ -16,6 +16,7 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../../shared/contexts';
+import userCartStore from '../../shared/store/userCart';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -60,12 +61,18 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export default function PrimarySearchAppBar() {
   const navigate = useNavigate();
   const { isAuthenticated, logout } = useAuthContext();
+  const { cart } = userCartStore();
+  const [quantity, setQuantity] = React.useState(0);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  React.useEffect(() => {
+    handleCartItens();
+  },[cart])
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -167,6 +174,15 @@ export default function PrimarySearchAppBar() {
     </Menu>
   );
 
+  const handleCartItens = () => {
+    let quantity = 0;
+    cart.map(item => {
+      quantity = quantity + item.quantity;
+    })
+
+    setQuantity(quantity);
+  }
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -209,7 +225,7 @@ export default function PrimarySearchAppBar() {
               aria-label="show 17 new notifications"
               color="inherit"
             >
-              <Badge badgeContent={17} color="error" onClick={() => navigate("/cart", { state: '' })}>
+              <Badge badgeContent={quantity} color="error" onClick={() => navigate("/cart", { state: '' })}>
                 <ShoppingCartIcon />
               </Badge>
             </IconButton>

@@ -10,33 +10,32 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
-import { useState } from "react";
 import { formatMoney } from "../../shared/utils/numbers";
+import { CartItemType } from "../../shared/store/userCart";
 
-function ItemCart() {
-  const [quantity, setQuantity]= useState<number>(1);
+interface ICartItem {
+  item: CartItemType,
+  handleAdd: (id: number) => void,
+  handleRemove: (id: number, quantity: number) => void,
+  handleDel: (id: number) => void,
+  buttonDisable: boolean,
+}
 
-  function handleIncrease() {
-    setQuantity((prevState) => prevState + 1)
-  }
-  function handleRemove() {
-    setQuantity((prevState) => prevState - 1)
-  }
-  
+function ItemCart({ item, handleAdd, handleRemove, handleDel, buttonDisable }: ICartItem) {
 
   return (
     <Card sx={{ display: "flex", padding: 2, mb: 2, justifyContent: 'space-between', backgroundColor: '#1111' }}>
       <CardMedia
         component="img"
         sx={{ width: 155, height: 120 }}
-        image="https://a-static.mlcdn.com.br/800x560/notebook-samsung-book-intel-core-i3-4gb-256gb-ssd-156-full-hd-windows-11-np550xda-kv3br/magazineluiza/233394100/a8dcd2d4e938a2b9886dd586531c92a8.jpg"
-        alt="notebook"
+        image={item.item.picture}
+        alt={item.item.title}
       />
 
       <Box sx={{ display: "flex", flexDirection: "column" }}>
         <CardContent sx={{ flex: "1 0 auto" }}>
           <Typography component="div" variant="h5">
-            Notebook Samsung Book Intel Celeron 4GB 500GB
+            {item.item.title}
           </Typography>
           <Typography
             variant="subtitle2"
@@ -50,23 +49,23 @@ function ItemCart() {
             color="text.secondary"
             component="div"
           >
-            {formatMoney(1889.10)}
+            {formatMoney(item.item.price)}
             
           </Typography>
         </CardContent>
         <Box sx={{ display: "flex", alignItems: "center", pl: 1 }}>
-        <Tooltip title="Remover" onClick={handleRemove}>
+        <Tooltip title="Remover" onClick={() => handleRemove(item.item.id, item.quantity)}>
           <IconButton>
             <RemoveCircleIcon />
           </IconButton>
         </Tooltip>
-        {quantity}
-        <Tooltip title="Adicionar" onClick={handleIncrease}>
+        {item.quantity}
+        <Tooltip title="Adicionar" onClick={() => handleAdd(item.item.id)}>
           <IconButton>
             <AddCircleIcon />
           </IconButton>
         </Tooltip>
-        <Tooltip title="Delete">
+        <Tooltip title="Delete" onClick={() => handleDel(item.item.id)}>
           <IconButton>
             <DeleteIcon />
           </IconButton>
@@ -78,7 +77,7 @@ function ItemCart() {
           Valor Total
         </Typography>
         <Typography variant="h6" color="text.secondary" component="div">
-          {formatMoney(1889.10)}
+          {formatMoney(item.item.price * item.quantity)}
         </Typography>
       </Box>
     </Card>
