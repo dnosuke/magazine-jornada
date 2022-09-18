@@ -19,6 +19,7 @@ import Tooltip from "@mui/material/Tooltip";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { visuallyHidden } from "@mui/utils";
 import PrimarySearchAppBar from "../../components/PrimaryNavbar";
+import ModalEditProduct from "../../components/ModalEditProduct";
 
 interface Data {
   title: string;
@@ -250,6 +251,9 @@ export default function AdminProductList() {
   const [selected, setSelected] = React.useState<readonly string[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
@@ -364,8 +368,10 @@ export default function AdminProductList() {
                         <TableCell align="right">{row.quantity}</TableCell>
                         <TableCell align="right">{row.price}</TableCell>
                         <TableCell align="right">
-                          <Button variant="outlined">Editar</Button>
-                          {" "}
+                          <Button variant="outlined" onClick={handleOpen}>
+                            Editar
+                          </Button>
+                          <ModalEditProduct open={open} handleClose={handleClose} />{" "}
                           <Button variant="outlined" color="warning">
                             Excluir
                           </Button>
