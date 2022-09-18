@@ -5,6 +5,7 @@ import Cart from "../pages/Cart";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Product from "../pages/Product";
+import ProductDescription from "../pages/ProductDescription";
 import ProductList from "../pages/ProductList";
 import SignUp from "../pages/SignUp";
 
@@ -19,6 +20,7 @@ export const AppRoutes = () => {
       <Route path="/cart" element={<Cart />} />
       <Route path="/product" element={<Product />} />
       <Route path="/product-list" element={<ProductList />} />
+      <Route path="/product-description" element={<ProductDescription />} />
 
       {/*ROTAS DE PARCEIRO */}
       <Route path="/admin/add-product" element={<AdminAddProduct />} />

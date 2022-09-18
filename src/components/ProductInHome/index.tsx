@@ -11,8 +11,10 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { formatMoney } from "../../shared/utils/numbers";
 import { Product } from "../../types/product";
 import userCartStore from "../../shared/store/userCart";
+import { useNavigate } from "react-router-dom";
 
 function ProductInHome(product: Product) {
+  const navigate = useNavigate();
   const { cart, addProduct } = userCartStore();
 
   function handleAddToCart() {
@@ -23,7 +25,7 @@ function ProductInHome(product: Product) {
 
   return (
     <Card sx={{ maxWidth: 300, maxHeight: 436 }}>
-      <CardActionArea>
+      <CardActionArea onClick={() => navigate("/product-description", { state: product })}>
         restam {product.quantity} unidades
         <CardMedia
           component="img"
