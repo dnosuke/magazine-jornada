@@ -15,14 +15,33 @@ interface ICartState {
   decrease: (productId:number) => void;
 }
 
+function verifyID(state: ICartState, product: CartItemType){
+  let isTrue = false;
+  for(let i=0; i< state.cart.length; i++){
+  if(state.cart[i].item.id === product.item.id){
+    isTrue = true;
+    break;
+  }}
+  return isTrue;
+}
+
 const userCartStore = create<ICartState>()(
   devtools(
     persist((set) => ({
       cart: [],
       addProduct: (product) => {
         set((state) => ({
-          cart: [...state.cart, product]
-        }))
+          cart: verifyID(state, product) ? 
+          state.cart.map(item => {
+            if(product.item.id === item.item.id){
+              return {...item, quantity: item.quantity + 1}
+            }else{
+              return {...item}
+            } 
+            })
+          :
+          [...state.cart, product]
+      }))
       },
       remove: (productId) => {
         set((state) => ({
