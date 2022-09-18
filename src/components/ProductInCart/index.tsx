@@ -11,9 +11,12 @@ import ItemCart from "../ItemCart";
 import { formatMoney } from "../../shared/utils/numbers";
 import userCartStore from "../../shared/store/userCart";
 
+type Empty = {
+  isEmpty: boolean;
+}
 
-export default function ProductInCart() {
-  const {cart, remove, increase, decrease} = userCartStore();
+export default function ProductInCart({ isEmpty }: Empty) {
+  const {cart, remove, increase, decrease, removeAll } = userCartStore();
   const [buttonDisable, setButtonDisable] = React.useState<boolean>(false);
 
   function handleIncreaseItemInCart(id: number) {
@@ -29,6 +32,11 @@ function handleDecreaseItemInCart(id: number, quantity: number) {
 
 function handleRemoveProduct(id: number) {
   remove(id);
+}
+
+function handleRemoveAllProducts() {
+  removeAll();
+  isEmpty = true;
 }
 
 function handleTotalPrice() {
@@ -64,7 +72,7 @@ function handleTotalPrice() {
           </CardContent>
           <CardActions>
             <Button style={{ backgroundColor: '#1976d2', color: '#f0eaea' }} size="large">EFETUAR PEDIDO</Button>
-            <Button color="error" size="small">LIMPAR CARRINHO</Button>
+            <Button color="error" size="small" onClick={handleRemoveAllProducts}>LIMPAR CARRINHO</Button>
           </CardActions>
         </Card>
       </Box>

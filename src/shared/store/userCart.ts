@@ -13,6 +13,7 @@ interface ICartState {
   remove: (productId:number) => void;
   increase: (productId:number) => void;
   decrease: (productId:number) => void;
+  removeAll: () => void;
 }
 
 function verifyID(state: ICartState, product: CartItemType){
@@ -32,13 +33,7 @@ const userCartStore = create<ICartState>()(
       addProduct: (product) => {
         set((state) => ({
           cart: verifyID(state, product) ? 
-          state.cart.map(item => {
-            if(product.item.id === item.item.id){
-              return {...item, quantity: item.quantity + 1}
-            }else{
-              return {...item}
-            } 
-            })
+          [...state.cart]
           :
           [...state.cart, product]
       }))
@@ -68,6 +63,11 @@ const userCartStore = create<ICartState>()(
             return {...item}
           } 
           })
+        }));
+      },
+      removeAll: () => {
+        set((_state) => ({
+          cart: []
         }));
       },
     })
