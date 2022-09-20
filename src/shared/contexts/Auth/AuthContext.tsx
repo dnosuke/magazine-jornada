@@ -44,8 +44,8 @@ export const AuthProvider: React.FC<IAuthProviderProps> = ({ children }) => {
     if (result instanceof Error) {
       return result.message;
     } else {
-      localStorage.setItem("APP_ACCESS_TOKEN", JSON.stringify(result.token));
-      setAccessToken(result.token);
+      localStorage.setItem("APP_ACCESS_TOKEN", JSON.stringify("result.token"));
+      setAccessToken("result.token");
     }
   }, []);
   const handleLogout = useCallback(() => {

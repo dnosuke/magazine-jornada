@@ -10,7 +10,6 @@ import ProductList from "../pages/ProductList";
 import SignUp from "../pages/SignUp";
 
 export const AppRoutes = () => {
-
   return (
     <Routes>
       {/*ROTAS DE CLIENTE */}
@@ -23,10 +22,25 @@ export const AppRoutes = () => {
       <Route path="/product-description" element={<ProductDescription />} />
 
       {/*ROTAS DE PARCEIRO */}
-      <Route path="/admin/add-product" element={<AdminAddProduct />} />
-      <Route path="/admin/product-list" element={<AdminProductList />} />
+
+      <Route
+        path="/admin/add-product"
+        element={
+          <Login>
+            <AdminAddProduct />
+          </Login>
+        }
+      />
+      <Route
+        path="/admin/product-list"
+        element={
+          <Login>
+            <AdminProductList />
+          </Login>
+        }
+      />
 
       <Route path="*" element={<Navigate to="/home" />} />
     </Routes>
   );
-}
+};

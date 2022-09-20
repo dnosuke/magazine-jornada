@@ -31,7 +31,7 @@ function ProductDescription() {
     <>
       <PrimarySearchAppBar />
       <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-        <Typography variant="h4" component="div">
+        <Typography variant="h5" component="div">
           Descrição de Produto
         </Typography>
         <Box sx={{ maxWidth: '80%', alignSelf: "center" }}>
@@ -44,6 +44,9 @@ function ProductDescription() {
                 alt={product.title}
               />
               <CardContent>
+                <Typography gutterBottom variant="subtitle2" component="div">
+                Vendido e entregue por: NOME
+                </Typography>
                 <Typography gutterBottom variant="h4" component="div">
                   {product.title}
                 </Typography>

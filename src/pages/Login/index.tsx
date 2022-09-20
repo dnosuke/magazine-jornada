@@ -2,6 +2,7 @@ import { Box, Button, Link, TextField } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../shared/contexts";
+import userRegister from "../../shared/store/userRegister";
 
 interface ILoginProps {
   children: React.ReactNode;
@@ -12,14 +13,18 @@ const Login: React.FC<ILoginProps> = ({ children }) => {
   const { isAuthenticated, login } = useAuthContext();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { userLogin } = userRegister();
 
   const handleSubmit = async () => {
     if (email && password) {
       await login(email, password);
+      userLogin(email);
     }
   };
 
-  if (isAuthenticated) return <>{children}</>;
+  if (isAuthenticated) {
+    return <>{children}</>;
+  }
 
   return (
     <Box
