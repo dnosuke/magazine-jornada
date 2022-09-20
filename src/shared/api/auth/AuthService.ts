@@ -32,7 +32,7 @@ const resgisterProduct = async (product: Product) => {
 
 const auth = async (email: string, password: string): Promise<IAuth | Error> => {
   try {
-    const { data } = await Api.post('/user/login', { email, password });
+    const { data } = await Api.post('/login', { email: email, password: password });
 
     if (data){
   console.log(data)
