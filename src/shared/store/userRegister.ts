@@ -12,7 +12,7 @@ interface IUserState {
 const userRegister = create<IUserState>()(
   devtools(
     persist((set) => ({
-      email: 'nome@gmail.com',
+      email: '',
       userLogin: (email) => {
         set((_state) => ({
           email: email
