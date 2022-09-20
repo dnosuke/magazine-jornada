@@ -18,6 +18,8 @@ const Login: React.FC<ILoginProps> = ({ children }) => {
   const handleSubmit = async () => {
     if (email && password) {
       await login(email, password);
+    }
+    if (isAuthenticated) {
       userLogin(email);
     }
   };
@@ -43,7 +45,13 @@ const Login: React.FC<ILoginProps> = ({ children }) => {
         borderRadius="2%"
         style={{ backgroundColor: "white" }}
       >
-        <Box width="50%" display={"flex"} justifyContent={"center"} alignItems={"center"} style={{ backgroundColor: "#285ec4" }}>
+        <Box
+          width="50%"
+          display={"flex"}
+          justifyContent={"center"}
+          alignItems={"center"}
+          style={{ backgroundColor: "#285ec4" }}
+        >
           <iframe
             title="shop"
             height="100%"

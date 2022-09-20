@@ -36,7 +36,7 @@ const auth = async (email: string, password: string): Promise<IAuth | Error> => 
 
     if (data){
   console.log(data)
-      
+
       return data;
     }
 

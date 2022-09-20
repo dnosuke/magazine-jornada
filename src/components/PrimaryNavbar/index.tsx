@@ -118,27 +118,24 @@ export default function PrimarySearchAppBar() {
       onClose={handleMenuClose}
     >
       <MenuItem>Atalho Páginas</MenuItem>
-      <MenuItem onClick={() => navigate("/login")} disabled={isAuthenticated}>
+      <MenuItem onClick={() => navigate("/login")}>
         Login
       </MenuItem>
-      <MenuItem onClick={() => navigate("/signup")} disabled={isAuthenticated}>
+      <MenuItem onClick={() => navigate("/signup")}>
         Signup
       </MenuItem>
       <MenuItem
         onClick={() => navigate("/admin/add-product")}
-        disabled={!isAuthenticated}
       >
         Cadastro produto
       </MenuItem>
       <MenuItem
         onClick={() => navigate("/admin/product-list")}
-        disabled={!isAuthenticated}
       >
         Produtos cadastrados
       </MenuItem>
       <MenuItem
         onClick={handleLogout}
-        disabled={!isAuthenticated}
       >
         Sair
       </MenuItem>
