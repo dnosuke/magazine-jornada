@@ -293,7 +293,7 @@ export default function AdminProductList() {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelected = rows.map((n) => n.title);
+      const newSelected = data.map((n) => n.title);
       setSelected(newSelected);
       return;
     }
@@ -335,7 +335,7 @@ export default function AdminProductList() {
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
 
   return (
     <>
