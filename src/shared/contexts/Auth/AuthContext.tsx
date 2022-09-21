@@ -16,7 +16,7 @@ interface IAuthContextData {
   login: (email: string, password: string) => Promise<string | void>;
   logout: () => void;
   signup: (user: IUser) => void;
-  getAllProducts: () => void;
+  getAllProducts: () => Promise<Product[]>;
   registerProduct: (product: Product) => Promise<void>;
 }
 
@@ -63,6 +63,7 @@ export const AuthProvider: React.FC<IAuthProviderProps> = ({ children }) => {
   const handleGetAll = useCallback(async () => {
     const result = await AuthService.getAll();
     console.log(result);
+    return result;
   }, []);
 
   const handleResgisterProduct = useCallback(async (product: Product) => {

@@ -18,12 +18,10 @@ const Login: React.FC<ILoginProps> = ({ children }) => {
   const handleSubmit = async () => {
     if (email && password) {
       await login(email, password);
-    }
-    if (isAuthenticated) {
       userLogin(email);
     }
   };
-
+  
   if (isAuthenticated) {
     return <>{children}</>;
   }

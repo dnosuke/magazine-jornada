@@ -12,8 +12,9 @@ const validateToken = async (token: IAuth) => {
   return data;
 }
 const getAll = async () => {
-  const { data } = await Api.get('/api/');
-  return data;
+  const { data } = await Api.get('/product');
+  console.log(data);
+  return data as Product[];
 }
 const signUp = async (user: IUser) => {
   const { userType, name, email, password, profilePicture } = user;

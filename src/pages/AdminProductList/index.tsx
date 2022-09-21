@@ -20,6 +20,9 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { visuallyHidden } from "@mui/utils";
 import PrimarySearchAppBar from "../../components/PrimaryNavbar";
 import ModalEditProduct from "../../components/ModalEditProduct";
+import { useAuthContext } from "../../shared/contexts";
+import { Product } from "../../types/product";
+import { formatMoney } from "../../shared/utils/numbers";
 
 interface Data {
   title: string;
@@ -252,8 +255,32 @@ export default function AdminProductList() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [open, setOpen] = React.useState(false);
+  const [data, setData] = React.useState<Product[]>([
+    {
+      id: 1,
+      title: "samsung",
+      description: "samsung",
+      quantity: 2,
+      price: 2000,
+      picture: "img.png",
+    },
+  ]);
+  const { getAllProducts } = useAuthContext();
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  React.useEffect(() => {
+    getAllProducts().then((result) => {
+      console.log(result);
+      if (result) {
+        setData(result);
+      }
+    });
+  }, []);
+
+  const handleRemove = () => {
+    console.log("item removido");
+  };
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
@@ -324,12 +351,12 @@ export default function AdminProductList() {
                 orderBy={orderBy}
                 onSelectAllClick={handleSelectAllClick}
                 onRequestSort={handleRequestSort}
-                rowCount={rows.length}
+                rowCount={data.length}
               />
               <TableBody>
                 {/* if you don't need to support IE11, you can replace the `stableSort` call with:
               rows.slice().sort(getComparator(order, orderBy)) */}
-                {stableSort(rows, getComparator(order, orderBy))
+                {stableSort(data as Product[], getComparator(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, index) => {
                     const isItemSelected = isSelected(row.title);
@@ -366,13 +393,22 @@ export default function AdminProductList() {
                           {row.title}
                         </TableCell>
                         <TableCell align="right">{row.quantity}</TableCell>
-                        <TableCell align="right">{row.price}</TableCell>
+                        <TableCell align="right">
+                          {formatMoney(row.price)}
+                        </TableCell>
                         <TableCell align="right">
                           <Button variant="outlined" onClick={handleOpen}>
                             Editar
                           </Button>
-                          <ModalEditProduct open={open} handleClose={handleClose} />{" "}
-                          <Button variant="outlined" color="warning">
+                          <ModalEditProduct
+                            open={open}
+                            handleClose={handleClose}
+                          />{" "}
+                          <Button
+                            variant="outlined"
+                            color="warning"
+                            onClick={handleRemove}
+                          >
                             Excluir
                           </Button>
                         </TableCell>
@@ -394,7 +430,7 @@ export default function AdminProductList() {
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={rows.length}
+            count={data.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
