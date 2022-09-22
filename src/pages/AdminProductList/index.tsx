@@ -232,13 +232,12 @@ export default function AdminProductList() {
       picture: "",
     },
   ]);
-  const { getAllProducts, removeProduct } = useAuthContext();
+  const { getAllProducts, removeProduct, updateProduct } = useAuthContext();
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   React.useEffect(() => {
     getAllProducts().then((result) => {
-      console.log(result);
       if (result) {
         setData(result);
       }
@@ -384,6 +383,8 @@ export default function AdminProductList() {
                           <ModalEditProduct
                             open={open}
                             handleClose={handleClose}
+                            product={row}
+                            update={updateProduct}
                           />{" "}
                           <Button
                             variant="outlined"

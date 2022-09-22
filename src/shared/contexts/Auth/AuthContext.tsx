@@ -19,6 +19,7 @@ interface IAuthContextData {
   getAllProducts: () => Promise<Product[]>;
   registerProduct: (product: Product) => Promise<void>;
   removeProduct: (id: number) => Promise<void>;
+  updateProduct: (product: Product) => Promise<void>;
 }
 
 interface IAuthProviderProps {
@@ -49,6 +50,7 @@ export const AuthProvider: React.FC<IAuthProviderProps> = ({ children }) => {
       setAccessToken("result.token");
     }
   }, []);
+
   const handleLogout = useCallback(() => {
     localStorage.removeItem("APP_ACCESS_TOKEN");
     setAccessToken(undefined);
@@ -63,7 +65,6 @@ export const AuthProvider: React.FC<IAuthProviderProps> = ({ children }) => {
 
   const handleGetAll = useCallback(async () => {
     const result = await AuthService.getAll();
-    console.log(result);
     return result;
   }, []);
 
@@ -71,8 +72,14 @@ export const AuthProvider: React.FC<IAuthProviderProps> = ({ children }) => {
     const result = await AuthService.resgisterProduct(product);
     console.log(result);
   }, []);
+
   const handleRemoveProduct = useCallback(async (id: number) => {
     const result = await AuthService.removeProduct(id);
+    console.log(result);
+  }, []);
+
+  const handleUpdateProduct = useCallback(async (product: Product) => {
+    const result = await AuthService.updateProduct(product);
     console.log(result);
   }, []);
 
@@ -86,6 +93,7 @@ export const AuthProvider: React.FC<IAuthProviderProps> = ({ children }) => {
         getAllProducts: handleGetAll,
         registerProduct: handleResgisterProduct,
         removeProduct: handleRemoveProduct,
+        updateProduct: handleUpdateProduct,
       }}
     >
       {children}

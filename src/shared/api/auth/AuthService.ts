@@ -13,7 +13,6 @@ const validateToken = async (token: IAuth) => {
 }
 const getAll = async () => {
   const { data } = await Api.get('/product');
-  console.log(data);
   return data as Product[];
 }
 const signUp = async (user: IUser) => {
@@ -32,6 +31,11 @@ const resgisterProduct = async (product: Product) => {
 }
 const removeProduct = async (id: number) => {
   const { data } = await Api.delete(`/product/${id}/delete`);
+  console.log(data);
+}
+const updateProduct = async (product: Product) => {
+  const { id, title, description } = product;
+  const { data } = await Api.put(`/product/${id}/update`, { title, description });
   console.log(data);
 }
 
@@ -59,4 +63,5 @@ export const AuthService = {
   signUp,
   resgisterProduct,
   removeProduct,
+  updateProduct,
 };
