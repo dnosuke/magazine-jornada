@@ -30,6 +30,10 @@ const resgisterProduct = async (product: Product) => {
   
   return data;
 }
+const removeProduct = async (id: number) => {
+  const { data } = await Api.delete(`/product/${id}/delete`);
+  console.log(data);
+}
 
 const auth = async (email: string, password: string): Promise<IAuth | Error> => {
   try {
@@ -54,4 +58,5 @@ export const AuthService = {
   getAll,
   signUp,
   resgisterProduct,
+  removeProduct,
 };

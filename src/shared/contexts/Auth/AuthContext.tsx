@@ -18,6 +18,7 @@ interface IAuthContextData {
   signup: (user: IUser) => void;
   getAllProducts: () => Promise<Product[]>;
   registerProduct: (product: Product) => Promise<void>;
+  removeProduct: (id: number) => Promise<void>;
 }
 
 interface IAuthProviderProps {
@@ -70,6 +71,10 @@ export const AuthProvider: React.FC<IAuthProviderProps> = ({ children }) => {
     const result = await AuthService.resgisterProduct(product);
     console.log(result);
   }, []);
+  const handleRemoveProduct = useCallback(async (id: number) => {
+    const result = await AuthService.removeProduct(id);
+    console.log(result);
+  }, []);
 
   return (
     <AuthContext.Provider
@@ -80,6 +85,7 @@ export const AuthProvider: React.FC<IAuthProviderProps> = ({ children }) => {
         signup: handleSignUp,
         getAllProducts: handleGetAll,
         registerProduct: handleResgisterProduct,
+        removeProduct: handleRemoveProduct,
       }}
     >
       {children}

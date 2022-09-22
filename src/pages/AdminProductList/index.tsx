@@ -24,36 +24,6 @@ import { useAuthContext } from "../../shared/contexts";
 import { Product } from "../../types/product";
 import { formatMoney } from "../../shared/utils/numbers";
 
-interface Data {
-  title: string;
-  quantity: number;
-  price: number;
-}
-
-function createData(title: string, quantity: number, price: number): Data {
-  return {
-    title,
-    quantity,
-    price,
-  };
-}
-
-const rows = [
-  createData("notebook acer", 305, 3.7),
-  createData("notebook lenovo", 452, 25.0),
-  createData("notebook positivo", 262, 16.0),
-  createData("Moto g5", 159, 6.0),
-  createData("Moto g20", 356, 16.0),
-  createData("Iphone 13", 408, 3.2),
-  createData("Iphone 13 pro", 237, 9.0),
-  createData("Iphone 14", 375, 0.0),
-  createData("Iphone 14 pro", 518, 26.0),
-  createData("Samsung galaxy", 392, 0.2),
-  createData("Samsung s20", 318, 0),
-  createData("Samsung s20 ultra", 360, 19.0),
-  createData("Nokia 1100", 437, 18.0),
-];
-
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -97,7 +67,7 @@ function stableSort<T>(
 
 interface HeadCell {
   disablePadding: boolean;
-  id: keyof Data;
+  id: string;
   label: string;
   numeric: boolean;
 }
@@ -122,7 +92,7 @@ const headCells: readonly HeadCell[] = [
     label: "Preço",
   },
   {
-    id: "title",
+    id: "actions",
     numeric: true,
     disablePadding: false,
     label: "Ações",
@@ -131,10 +101,7 @@ const headCells: readonly HeadCell[] = [
 
 interface EnhancedTableProps {
   numSelected: number;
-  onRequestSort: (
-    event: React.MouseEvent<unknown>,
-    property: keyof Data
-  ) => void;
+  onRequestSort: (event: React.MouseEvent<unknown>, property: string) => void;
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
   order: Order;
   orderBy: string;
@@ -151,7 +118,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
     onRequestSort,
   } = props;
   const createSortHandler =
-    (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
+    (property: string) => (event: React.MouseEvent<unknown>) => {
       onRequestSort(event, property);
     };
 
@@ -250,22 +217,22 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
 
 export default function AdminProductList() {
   const [order, setOrder] = React.useState<Order>("asc");
-  const [orderBy, setOrderBy] = React.useState<keyof Data>("price");
-  const [selected, setSelected] = React.useState<readonly string[]>([]);
+  const [orderBy, setOrderBy] = React.useState<string>("price");
+  const [selected, setSelected] = React.useState<readonly number[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [open, setOpen] = React.useState(false);
   const [data, setData] = React.useState<Product[]>([
     {
-      id: 1,
-      title: "samsung",
-      description: "samsung",
-      quantity: 2,
-      price: 2000,
-      picture: "img.png",
+      id: 0,
+      title: "",
+      description: "",
+      quantity: 0,
+      price: 0,
+      picture: "",
     },
   ]);
-  const { getAllProducts } = useAuthContext();
+  const { getAllProducts, removeProduct } = useAuthContext();
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -278,13 +245,27 @@ export default function AdminProductList() {
     });
   }, []);
 
-  const handleRemove = () => {
-    console.log("item removido");
+  const handleRemove = (id: number) => {
+    console.log(`item removido ${id}`);
+    let newData = [] as Product[];
+    data.map((item) => {
+      if (item.id !== id) {
+        newData.push(item);
+      } else {
+        removeProduct(item.id);
+      }
+    });
+    setData(newData);
+  };
+
+  const handleDeleteAll = () => {
+    console.log("todos removidos");
+    setData([]);
   };
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
-    property: keyof Data
+    property: string
   ) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -293,19 +274,19 @@ export default function AdminProductList() {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelected = data.map((n) => n.title);
+      const newSelected = data.map((n) => n.id);
       setSelected(newSelected);
       return;
     }
     setSelected([]);
   };
 
-  const handleClick = (event: React.MouseEvent<unknown>, name: string) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected: readonly string[] = [];
+  const handleClick = (event: React.MouseEvent<unknown>, id: number) => {
+    const selectedIndex = selected.indexOf(id);
+    let newSelected: readonly number[] = [];
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
+      newSelected = newSelected.concat(selected, id);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -331,7 +312,7 @@ export default function AdminProductList() {
     setPage(0);
   };
 
-  const isSelected = (name: string) => selected.indexOf(name) !== -1;
+  const isSelected = (id: number) => selected.indexOf(id) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
@@ -359,7 +340,7 @@ export default function AdminProductList() {
                 {stableSort(data as Product[], getComparator(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, index) => {
-                    const isItemSelected = isSelected(row.title);
+                    const isItemSelected = isSelected(row.id);
                     const labelId = `enhanced-table-checkbox-${index}`;
 
                     return (
@@ -368,12 +349,12 @@ export default function AdminProductList() {
                         role="checkbox"
                         aria-checked={isItemSelected}
                         tabIndex={-1}
-                        key={row.title}
+                        key={row.id}
                         selected={isItemSelected}
                       >
                         <TableCell
                           padding="checkbox"
-                          onClick={(event) => handleClick(event, row.title)}
+                          onClick={(event) => handleClick(event, row.id)}
                         >
                           <Checkbox
                             color="primary"
@@ -388,7 +369,7 @@ export default function AdminProductList() {
                           id={labelId}
                           scope="row"
                           padding="none"
-                          onClick={(event) => handleClick(event, row.title)}
+                          onClick={(event) => handleClick(event, row.id)}
                         >
                           {row.title}
                         </TableCell>
@@ -407,7 +388,7 @@ export default function AdminProductList() {
                           <Button
                             variant="outlined"
                             color="warning"
-                            onClick={handleRemove}
+                            onClick={() => handleRemove(row.id)}
                           >
                             Excluir
                           </Button>
