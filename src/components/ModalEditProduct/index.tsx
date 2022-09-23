@@ -1,6 +1,9 @@
 import { Box, Button, FormControl, TextField } from "@mui/material";
 import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
+import { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { useAuthContext } from "../../shared/contexts";
 import { Product } from "../../types/product";
 
 const style = {
@@ -23,13 +26,33 @@ type ModalType = {
   handleClose: () => void;
 };
 
+type FormData = {
+  title: string;
+  description: string;
+  quantity: number;
+  price: number;
+  picture: string;
+};
+
 export default function ModalEditProduct({
   open,
   handleClose,
   product,
   update,
 }: ModalType) {
-  const handleSubmit = () => {};
+  const [isLoading, setIsLoading] = useState<boolean>();
+  const {
+    register,
+    setValue,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>();
+  const onSubmit = handleSubmit((data) => {
+    //setIsLoading(true);
+    update(data as Product).then(() => setIsLoading(false));
+    console.log(data);
+  });
 
   return (
     <Modal
@@ -48,24 +71,38 @@ export default function ModalEditProduct({
         >
           Atualizar produto
         </Typography>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={onSubmit}>
           <FormControl fullWidth sx={{ gap: 2 }}>
-            <TextField
-              id="titulo"
-              error={false}
-              helperText=""
-              label="Título"
-              variant="outlined"
-              required={true}
-              value={product.title}
+            <Controller
+              name={"title"}
+              control={control}
+              defaultValue={product.title}
+              render={({ field: { value } }) => (
+                <TextField
+                  error={errors.title ? true : false}
+                  helperText={errors.title ? "Preencha este campo" : ""}
+                  value={value}
+                  label={"Titulo"}
+                  {...register("title", { required: true })}
+                />
+              )}
             />
 
-            <TextField
-              id="outlined-description-static"
-              label="Descrição"
-              multiline
-              rows={4}
-              value={product.description}
+            <Controller
+              name={"description"}
+              control={control}
+              defaultValue={product.description}
+              render={({ field: { value } }) => (
+                <TextField
+                  error={errors.description ? true : false}
+                  helperText={errors.description ? "Preencha este campo" : ""}
+                  value={value}
+                  label={"Descrição"}
+                  multiline
+                  rows={4}
+                  {...register("description", { required: true })}
+                />
+              )}
             />
             <TextField
               id="quantidade-outlined-basic"
@@ -86,16 +123,21 @@ export default function ModalEditProduct({
               value={product.price}
               disabled={true}
             />
+            <Button
+              color="info"
+              variant="contained"
+              type="submit"
+              disabled={false}
+              sx={{ m: 2 }}
+              onClick={() => {
+                setValue("quantity", product.quantity);
+                setValue("price", product.price);
+                setValue("picture", product.picture);
+              }}
+            >
+              Atualizar
+            </Button>
           </FormControl>
-          <Button
-            color="info"
-            variant="contained"
-            onClick={() => console.info("atualizado")}
-            disabled={false}
-            sx={{ m: 2 }}
-          >
-            Atualizar
-          </Button>
         </form>
       </Box>
     </Modal>

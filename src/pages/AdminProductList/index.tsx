@@ -420,6 +420,7 @@ export default function AdminProductList() {
             </Table>
           </TableContainer>
           <TablePagination
+            labelRowsPerPage={'Linhas por página'}
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
             count={data.length}
