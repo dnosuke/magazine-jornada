@@ -108,7 +108,7 @@ function SignUp() {
           >
             <h1>Bem-vindo</h1>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <FormControl fullWidth sx={{ gap:2 }}>
+              <FormControl fullWidth sx={{ gap: 2 }}>
                 <InputLabel id="demo-simple-select-label">Tipo</InputLabel>
                 <Select
                   labelId="simple-select-label"
@@ -169,12 +169,19 @@ function SignUp() {
                   render={({ field: { onChange, value } }) => (
                     <TextField
                       error={errors.confirm_password ? true : false}
-                      helperText={errors.confirm_password ? errors.confirm_password.message : ""}
-                      {...register("confirm_password", { required: true, validate: (val: string) => {
-                        if(watch('password') !== val) {
-                          return "Senhas diferentes";
-                        }
-                      } })}
+                      helperText={
+                        errors.confirm_password
+                          ? errors.confirm_password.message
+                          : ""
+                      }
+                      {...register("confirm_password", {
+                        required: true,
+                        validate: (val: string) => {
+                          if (watch("password") !== val) {
+                            return "Senhas diferentes";
+                          }
+                        },
+                      })}
                       value={value}
                       label={"Confirmar Senha"}
                       type="password"

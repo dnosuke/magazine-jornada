@@ -1,5 +1,6 @@
-import { Box, Button, Link, TextField } from "@mui/material";
+import { Box, Button, FormControl, Link, TextField } from "@mui/material";
 import { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../shared/contexts";
 import userRegister from "../../shared/store/userRegister";
@@ -7,21 +8,27 @@ import userRegister from "../../shared/store/userRegister";
 interface ILoginProps {
   children: React.ReactNode;
 }
+type FormData = {
+  email: string;
+  password: string;
+};
 
 const Login: React.FC<ILoginProps> = ({ children }) => {
   const navigate = useNavigate();
   const { isAuthenticated, login } = useAuthContext();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const { userLogin } = userRegister();
+  const {
+    register,
+    setValue,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>();
+  const onSubmit = handleSubmit(async (data) => {
+    await login(data.email, data.password);
+    userLogin(data.email);
+  });
 
-  const handleSubmit = async () => {
-    if (email && password) {
-      await login(email, password);
-      userLogin(email);
-    }
-  };
-  
   if (isAuthenticated) {
     return <>{children}</>;
   }
@@ -72,41 +79,57 @@ const Login: React.FC<ILoginProps> = ({ children }) => {
             flexDirection={"column"}
             alignSelf={"center"}
             textAlign="center"
+            marginTop={6}
             gap={1}
           >
             <h1>Bem-vindo</h1>
             <span>Lorem ipsum dolor sit amet, consectetur adipisci elit</span>
-            <TextField
-              id="outlined-basic"
-              error={false}
-              helperText="Incorrect entry."
-              label="E-mail"
-              variant="outlined"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <TextField
-              id="outlined-password-input"
-              label="Senha"
-              type="password"
-              autoComplete="current-password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <Link
-              component="button"
-              variant="body2"
-              underline="none"
-              textAlign={"left"}
-              onClick={() => {
-                console.info("Esqueci a senha");
-              }}
-            >
-              Esqueci a senha
-            </Link>
-            <Button color="info" variant="contained" onClick={handleSubmit}>
-              Login
-            </Button>
+            <form onSubmit={onSubmit}>
+              <FormControl fullWidth sx={{ gap: 2 }}>
+                <Controller
+                  name={"email"}
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <TextField
+                      type={"email"}
+                      error={errors.email ? true : false}
+                      helperText={errors.email ? "Preencha este campo" : ""}
+                      {...register("email", { required: true })}
+                      value={value}
+                      label={"E-mail"}
+                    />
+                  )}
+                />
+                <Controller
+                  name={"password"}
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <TextField
+                      type="password"
+                      error={errors.password ? true : false}
+                      helperText={errors.password ? "Preencha este campo" : ""}
+                      {...register("password", { required: true })}
+                      value={value}
+                      label={"Senha"}
+                    />
+                  )}
+                />
+                <Link
+                  component="button"
+                  variant="body2"
+                  underline="none"
+                  textAlign={"left"}
+                  onClick={() => {
+                    console.info("Esqueci a senha");
+                  }}
+                >
+                  Esqueceu a senha?
+                </Link>
+                <Button color="info" variant="contained" type="submit">
+                  Login
+                </Button>
+              </FormControl>
+            </form>
           </Box>
           <Box alignSelf="center">
             Não tem uma conta ainda?{" "}
