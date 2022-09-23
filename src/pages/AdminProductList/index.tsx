@@ -23,6 +23,7 @@ import ModalEditProduct from "../../components/ModalEditProduct";
 import { useAuthContext } from "../../shared/contexts";
 import { Product } from "../../types/product";
 import { formatMoney } from "../../shared/utils/numbers";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -164,10 +165,11 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 
 interface EnhancedTableToolbarProps {
   numSelected: number;
+  navigate: NavigateFunction;
 }
 
 const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
-  const { numSelected } = props;
+  const { numSelected, navigate } = props;
 
   return (
     <Toolbar
@@ -209,13 +211,19 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
           </IconButton>
         </Tooltip>
       ) : (
-        <Button variant="contained">Cadastrar novo</Button>
+        <Button
+          variant="contained"
+          onClick={() => navigate("/admin/add-product")}
+        >
+          Cadastrar novo
+        </Button>
       )}
     </Toolbar>
   );
 };
 
 export default function AdminProductList() {
+  const navigate = useNavigate();
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<string>("price");
   const [selected, setSelected] = React.useState<readonly number[]>([]);
@@ -322,7 +330,10 @@ export default function AdminProductList() {
       <PrimarySearchAppBar />
       <Box sx={{ width: "100%" }}>
         <Paper sx={{ width: "100%", mb: 2 }}>
-          <EnhancedTableToolbar numSelected={selected.length} />
+          <EnhancedTableToolbar
+            numSelected={selected.length}
+            navigate={navigate}
+          />
           <TableContainer>
             <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
               <EnhancedTableHead
