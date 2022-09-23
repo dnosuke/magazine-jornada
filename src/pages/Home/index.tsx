@@ -37,15 +37,15 @@ function Home() {
         <Grid
           container
           spacing={{ xs: 2, md: 3 }}
-          columns={{ xs: 4, sm: 8, md: 12 }}
+          columns={{ xs: 6, sm: 8, md: 12 }}
         >
           {PRODUCTS.map((product, index) => (
-            <Grid xs={4} sm={4} md={3} key={index}>
+            <Grid key={index}>
               <ProductInHome {...product} />
             </Grid>
           ))}
           {data.map((product, index) => (
-            <Grid xs={4} sm={4} md={3} key={index}>
+            <Grid key={index}>
               <ProductInHome {...product} />
             </Grid>
           ))}

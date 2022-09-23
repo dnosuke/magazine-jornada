@@ -20,13 +20,11 @@ export default function ProductInCart({ isEmpty }: Empty) {
   const [buttonDisable, setButtonDisable] = React.useState<boolean>(false);
 
   function handleIncreaseItemInCart(id: number) {
-    console.log('add');
     increase(id);
     setButtonDisable(false); 
 }
 
 function handleDecreaseItemInCart(id: number, quantity: number) {
-  console.log('remove');
   quantity === 1 ? setButtonDisable(true) : decrease(id);
 }
 

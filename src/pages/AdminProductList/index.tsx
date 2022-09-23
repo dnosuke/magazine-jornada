@@ -266,7 +266,6 @@ export default function AdminProductList() {
   };
 
   const handleDeleteAll = () => {
-    console.log("todos removidos");
     setData([]);
   };
 

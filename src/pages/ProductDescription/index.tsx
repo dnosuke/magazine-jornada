@@ -23,9 +23,7 @@ function ProductDescription() {
   function handleAddToCart() {
     let item = { item: product, quantity: 1 };
     addProduct(item);
-    console.log("produto adicionado ao carrinho.");
   }
-  console.log(state);
 
   return (
     <>

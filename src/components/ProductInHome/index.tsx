@@ -20,7 +20,6 @@ function ProductInHome(product: Product) {
   function handleAddToCart() {
     let item = { item: product, quantity: 1 };
     addProduct(item);
-    console.log("produto adicionado ao carrinho.");
   }
 
   return (
@@ -34,7 +33,7 @@ function ProductInHome(product: Product) {
           alt={product.title}
         />
         <CardContent>
-          <Typography gutterBottom variant="h6" component="div">
+          <Typography gutterBottom variant="h6" fontSize={14} component="div">
             {product.title}
           </Typography>
           <Typography
