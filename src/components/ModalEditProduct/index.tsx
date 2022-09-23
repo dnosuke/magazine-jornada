@@ -27,6 +27,7 @@ type ModalType = {
 };
 
 type FormData = {
+  id: number;
   title: string;
   description: string;
   quantity: number;
@@ -130,6 +131,7 @@ export default function ModalEditProduct({
               disabled={false}
               sx={{ m: 2 }}
               onClick={() => {
+                setValue("id", product.id);
                 setValue("quantity", product.quantity);
                 setValue("price", product.price);
                 setValue("picture", product.picture);
