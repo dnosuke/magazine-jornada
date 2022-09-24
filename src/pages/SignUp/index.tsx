@@ -8,6 +8,7 @@ import {
   Select,
   SelectChangeEvent,
   TextField,
+  Typography,
 } from "@mui/material";
 import { ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -63,50 +64,25 @@ function SignUp() {
       height="100vh"
       width="100vw"
       display="flex"
-      flexDirection={"column"}
       justifyContent="center"
-      style={{ backgroundColor: "#1111" }}
+      alignItems={"center"}
     >
       <Box
-        height="80%"
-        width="50%"
-        alignSelf={"center"}
-        display={"flex"}
+        height={"80%"}
+        maxWidth={360}
         borderRadius="2%"
         style={{ backgroundColor: "white" }}
       >
-        <Box
-          width="50%"
-          display={"flex"}
-          justifyContent={"center"}
-          alignItems={"center"}
-          style={{ backgroundColor: "#285ec4" }}
-        >
-          <iframe
-            title="shop"
-            height="100%"
-            width="100%"
-            src="https://embed.lottiefiles.com/animation/66358"
-          ></iframe>
+        <Box>
+          <Typography gutterBottom variant="h4" component="div" textAlign={"center"}>
+            Magazine Jornada
+          </Typography>
         </Box>
-        <Box
-          height="100%"
-          width="50%"
-          display="flex"
-          flexDirection={"column"}
-          alignSelf={"center"}
-          justifyContent="space-around"
-          gap={1}
-        >
-          <Box
-            width="70%"
-            display="flex"
-            flexDirection={"column"}
-            alignSelf={"center"}
-            textAlign="center"
-            gap={2}
-          >
-            <h1>Bem-vindo</h1>
+        <Box>
+          <Box>
+            <Typography gutterBottom variant="h6" component="div">
+              Cadastro
+            </Typography>
             <form onSubmit={handleSubmit(onSubmit)}>
               <FormControl fullWidth sx={{ gap: 2 }}>
                 <InputLabel id="demo-simple-select-label">Tipo</InputLabel>
@@ -132,6 +108,7 @@ function SignUp() {
                       value={value}
                       label={"Nome Completo"}
                       {...register("name", { required: true })}
+                      autoComplete="name"
                     />
                   )}
                 />
@@ -146,6 +123,7 @@ function SignUp() {
                       {...register("email", { required: true })}
                       value={value}
                       label={"E-mail"}
+                      autoComplete="email"
                     />
                   )}
                 />
@@ -160,6 +138,7 @@ function SignUp() {
                       {...register("password", { required: true })}
                       value={value}
                       label={"Senha"}
+                      autoComplete="new-password"
                     />
                   )}
                 />
@@ -205,7 +184,7 @@ function SignUp() {
               </FormControl>
             </form>
           </Box>
-          <Box alignSelf="center">
+          <Box alignSelf="center" mt={2}>
             Já possui uma conta?{" "}
             <Link
               component="button"

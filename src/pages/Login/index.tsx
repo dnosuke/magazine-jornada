@@ -1,4 +1,11 @@
-import { Box, Button, FormControl, Link, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  FormControl,
+  Link,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -38,52 +45,26 @@ const Login: React.FC<ILoginProps> = ({ children }) => {
       height="100vh"
       width="100vw"
       display="flex"
-      flexDirection={"column"}
       justifyContent="center"
-      style={{ backgroundColor: "#1111" }}
+      alignItems={"center"}
     >
       <Box
-        height="80%"
-        width="50%"
-        alignSelf={"center"}
-        display={"flex"}
+        height={"80%"}
+        maxWidth={360}
         borderRadius="2%"
         style={{ backgroundColor: "white" }}
       >
-        <Box
-          width="50%"
-          display={"flex"}
-          justifyContent={"center"}
-          alignItems={"center"}
-          style={{ backgroundColor: "#285ec4" }}
-        >
-          <iframe
-            title="shop"
-            height="100%"
-            width="100%"
-            src="https://embed.lottiefiles.com/animation/66358"
-          ></iframe>
+        <Box>
+          <Typography gutterBottom variant="h4" component="div" textAlign={"center"}>
+            Magazine Jornada
+          </Typography>
         </Box>
-        <Box
-          height="100%"
-          width="50%"
-          display="flex"
-          flexDirection={"column"}
-          alignSelf={"center"}
-          justifyContent="space-around"
-          gap={1}
-        >
-          <Box
-            width="70%"
-            display="flex"
-            flexDirection={"column"}
-            alignSelf={"center"}
-            textAlign="center"
-            marginTop={6}
-            gap={1}
-          >
-            <h1>Bem-vindo</h1>
+        <Box>
+          <Box>
             <span>Lorem ipsum dolor sit amet, consectetur adipisci elit</span>
+            <Typography gutterBottom variant="h6" component="div">
+              Cadastro
+            </Typography>
             <form onSubmit={onSubmit}>
               <FormControl fullWidth sx={{ gap: 2 }}>
                 <Controller
@@ -97,6 +78,7 @@ const Login: React.FC<ILoginProps> = ({ children }) => {
                       {...register("email", { required: true })}
                       value={value}
                       label={"E-mail"}
+                      autoComplete="email"
                     />
                   )}
                 />
@@ -111,6 +93,7 @@ const Login: React.FC<ILoginProps> = ({ children }) => {
                       {...register("password", { required: true })}
                       value={value}
                       label={"Senha"}
+                      autoComplete="current-password"
                     />
                   )}
                 />
@@ -131,7 +114,7 @@ const Login: React.FC<ILoginProps> = ({ children }) => {
               </FormControl>
             </form>
           </Box>
-          <Box alignSelf="center">
+          <Box alignSelf="center" mt={2}>
             Não tem uma conta ainda?{" "}
             <Link
               component="button"

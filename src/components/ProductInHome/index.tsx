@@ -23,17 +23,16 @@ function ProductInHome(product: Product) {
   }
 
   return (
-    <Card sx={{ maxWidth: 300, maxHeight: 436 }}>
+    <Card sx={{ maxWidth: 300, maxHeight: 415, minWidth: 300, minHeight: 415  }}>
       <CardActionArea onClick={() => navigate("/product-description", { state: product })}>
-        restam {product.quantity} unidades
         <CardMedia
           component="img"
-          sx={{ width: "auto", height: 202, m: 2 }}
+          sx={{ width: 268, maxHeight: 202, m: 2, mt: 4 }}
           image={product.picture}
           alt={product.title}
         />
         <CardContent>
-          <Typography gutterBottom variant="h6" fontSize={14} component="div">
+          <Typography gutterBottom variant="h6" fontSize={14} component="div" width={260} height={44}>
             {product.title}
           </Typography>
           <Typography

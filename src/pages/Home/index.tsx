@@ -1,5 +1,5 @@
-import { Box } from "@mui/material";
-import Grid from "@mui/material/Unstable_Grid2";
+import { Box, Typography } from "@mui/material";
+import Grid from "@mui/material/Grid";
 import { useEffect, useState } from "react";
 import PrimarySearchAppBar from "../../components/PrimaryNavbar";
 import ProductInHome from "../../components/ProductInHome";
@@ -33,23 +33,28 @@ function Home() {
       <PrimarySearchAppBar />
       <h1>Home</h1>
 
-      <Box sx={{ flexGrow: 1, m: 5 }}>
+      <Box sx={{ display: 'flex', justifyContent:"center",
+          alignItems: "center" }}>
+        <Box sx={{ flexGrow: 1,  maxWidth: '80%', }} >
         <Grid
           container
-          spacing={{ xs: 2, md: 3 }}
-          columns={{ xs: 6, sm: 8, md: 12 }}
-        >
+          rowSpacing={2}
+          columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+          direction="row"
+          alignItems="center"
+          >
           {PRODUCTS.map((product, index) => (
-            <Grid key={index}>
+            <Grid key={index} item xs={"auto"}>
               <ProductInHome {...product} />
             </Grid>
           ))}
           {data.map((product, index) => (
-            <Grid key={index}>
+            <Grid key={index} item xs={"auto"}>
               <ProductInHome {...product} />
             </Grid>
           ))}
         </Grid>
+          </Box>    
       </Box>
     </>
   );

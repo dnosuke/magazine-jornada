@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, TextField } from "@mui/material";
+import { Box, Button, FormControl, TextField, Typography } from "@mui/material";
 import { ChangeEvent, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import PrimarySearchAppBar from "../../components/PrimaryNavbar";
@@ -50,11 +50,8 @@ function AdminAddProduct() {
         display="flex"
         flexDirection={"column"}
         justifyContent="center"
-        style={{ backgroundColor: "#1111" }}
       >
         <Box
-          height="80%"
-          width="30%"
           alignSelf={"center"}
           display={"flex"}
           borderRadius="2%"
@@ -69,7 +66,9 @@ function AdminAddProduct() {
             padding={4}
             gap={2}
           >
-            <h1>Cadastrar Produto</h1>
+            <Typography gutterBottom variant="h4" component="div" textAlign={"center"}>
+            Cadastrar Produto
+          </Typography>
             <span>Lorem ipsum dolor sit amet, consectetur adipisci elit</span>
             <form onSubmit={onSubmit}>
               <FormControl fullWidth sx={{ gap: 2 }}>
