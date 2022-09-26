@@ -51,8 +51,10 @@ export default function ModalEditProduct({
   } = useForm<FormData>();
   const onSubmit = handleSubmit((data) => {
     //setIsLoading(true);
-    update(data as Product).then(() => setIsLoading(false));
-    console.log(data);
+    update(data as Product).then(() => {
+      setIsLoading(false);
+    });
+    handleClose();
   });
 
   return (

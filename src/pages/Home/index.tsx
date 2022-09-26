@@ -32,7 +32,6 @@ function Home() {
     <>
       <PrimarySearchAppBar />
       <h1>Home</h1>
-
       <Box sx={{ display: 'flex', justifyContent:"center",
           alignItems: "center" }}>
         <Box sx={{ flexGrow: 1,  maxWidth: '80%', }} >

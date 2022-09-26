@@ -24,6 +24,7 @@ import { useAuthContext } from "../../shared/contexts";
 import { Product } from "../../types/product";
 import { formatMoney } from "../../shared/utils/numbers";
 import { NavigateFunction, useNavigate } from "react-router-dom";
+import PositionedSnackbar from "../../components/Snackbar";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -230,6 +231,13 @@ export default function AdminProductList() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [open, setOpen] = React.useState(false);
+  const [openSnackbar, setOpenSnackbar] = React.useState(true);
+  const [stateSnackbar, setStateSnackbar] = React.useState({
+    open: false,
+    message: "",
+    severity: "",
+  });
+
   const [data, setData] = React.useState<Product[]>([
     {
       id: 0,
@@ -242,8 +250,18 @@ export default function AdminProductList() {
   ]);
   const { getAllProducts, removeProduct, updateProduct } = useAuthContext();
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
+  const handleClose = () => {
+    setOpen(false);
+    setStateSnackbar({
+      ...stateSnackbar,
+      open: true,
+      message: "Produto atualizado",
+      severity: "info",
+    });
+  };
+  const handleCloseSnackbar = () => {
+    setStateSnackbar({ ...stateSnackbar, open: false });
+  };
   React.useEffect(() => {
     getAllProducts().then((result) => {
       if (result) {
@@ -263,6 +281,12 @@ export default function AdminProductList() {
       }
     });
     setData(newData);
+    setStateSnackbar({
+      ...stateSnackbar,
+      open: true,
+      message: "Produto removido",
+      severity: "error",
+    });
   };
 
   const handleDeleteAll = () => {
@@ -420,7 +444,7 @@ export default function AdminProductList() {
             </Table>
           </TableContainer>
           <TablePagination
-            labelRowsPerPage={'Linhas por página'}
+            labelRowsPerPage={"Linhas por página"}
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
             count={data.length}
@@ -431,6 +455,8 @@ export default function AdminProductList() {
           />
         </Paper>
       </Box>
+
+      <PositionedSnackbar state={stateSnackbar} close={handleCloseSnackbar} />
     </>
   );
 }
