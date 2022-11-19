@@ -55,7 +55,12 @@ const Login: React.FC<ILoginProps> = ({ children }) => {
         style={{ backgroundColor: "white" }}
       >
         <Box>
-          <Typography gutterBottom variant="h4" component="div" textAlign={"center"}>
+          <Typography
+            gutterBottom
+            variant="h4"
+            component="div"
+            textAlign={"center"}
+          >
             Magazine Jornada
           </Typography>
         </Box>
@@ -72,6 +77,7 @@ const Login: React.FC<ILoginProps> = ({ children }) => {
                   control={control}
                   render={({ field: { onChange, value } }) => (
                     <TextField
+                      id="email-login"
                       type={"email"}
                       error={errors.email ? true : false}
                       helperText={errors.email ? "Preencha este campo" : ""}
@@ -87,6 +93,7 @@ const Login: React.FC<ILoginProps> = ({ children }) => {
                   control={control}
                   render={({ field: { onChange, value } }) => (
                     <TextField
+                      id="senha-login"
                       type="password"
                       error={errors.password ? true : false}
                       helperText={errors.password ? "Preencha este campo" : ""}

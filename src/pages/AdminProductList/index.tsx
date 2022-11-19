@@ -271,8 +271,7 @@ export default function AdminProductList() {
   }, []);
 
   const handleRemove = (id: number) => {
-    console.log(`item removido ${id}`);
-    let newData = [] as Product[];
+    const newData = [] as Product[];
     data.map((item) => {
       if (item.id !== id) {
         newData.push(item);
